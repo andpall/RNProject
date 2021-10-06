@@ -8,33 +8,34 @@
 
 import React from 'react';
 import type {Node} from 'react';
-import {
-  SafeAreaView,
-} from 'react-native';
+import {StyleSheet, Text, View, Button} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {
-} from 'react-native/Libraries/NewAppScreen';
+const Stack = createNativeStackNavigator();
 
-const Section = ({children, title}): Node => {
-  return (
-    <View >
-    </View>
-  );
-};
+import Navigation from './src/navigator/Navigator';
 
 const App: () => Node = () => {
-
   return (
-    <SafeAreaView >
-     
-    </SafeAreaView>
+    <NavigationContainer>
+        <Navigation />
+    </NavigationContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  SomeStyle: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  fullCenter: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    flexDirection: 'row',
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ededed',
   },
 });
 
