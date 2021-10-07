@@ -12,6 +12,8 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.4",
     "@react-navigation/native-stack": "^6.2.2",
+    "@types/i18n-js": "^3.8.2",
+    "i18n-js": "^3.8.0",
     "react": "17.0.2",
     "react-native": "0.66.0",
     "react-native-safe-area-context": "^3.3.2",
@@ -22,6 +24,7 @@
     "@babel/runtime": "7.15.4",
     "@react-native-community/eslint-config": "2.0.0",
     "@types/jest": "^27.0.2",
+    "@types/lodash": "^4.14.175",
     "@types/react": "^17.0.27",
     "@types/react-native": "^0.65.5",
     "@types/react-test-renderer": "^17.0.1",

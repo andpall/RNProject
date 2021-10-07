@@ -1,14 +1,16 @@
 import React from 'react';
 import {View, Text, Button} from 'react-native';
 import styles from './styles';
+import * as routes from '../../constants/routes'
+import { strings } from '../../i18n';
 
 const HomeScreen: React.FC<Props> = ({navigation, route}) => {
     return (
       <View style={styles.mainContainerStyle}>
-        <Text>This is main page of {route.params.login} user</Text>
+        <Text>{strings('simple_texts.home_page_greeting')}{route.params.login}</Text>
         <Button
-          title="Log Out"
-          onPress={() => navigation.navigate('LoginScrin')}
+          title={strings('buttons.logout')}
+          onPress={() => navigation.navigate(routes.LOGIN_SCREEN)}
         />
       </View>
     );
