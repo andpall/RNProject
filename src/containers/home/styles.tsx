@@ -1,13 +1,12 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  fullCenter: {
+  mainContainerStyle: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  blackTextStyle: {
-    color: 'black',
+    backgroundColor: 'white',
   },
 });
 
