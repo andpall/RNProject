@@ -14,7 +14,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-import Navigation from './src/navigator/Navigator';
+import Navigation from './src/navigator';
 
 const App: () => Node = () => {
   return (
@@ -23,20 +23,5 @@ const App: () => Node = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  fullCenter: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    flexDirection: 'row',
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ededed',
-  },
-});
 
 export default App;
