@@ -7,6 +7,9 @@
   },
   "errors": {
   },
+  "titles":{
+      "home_page_title": "Home Page"
+  },
   "simple_texts": {
     "login_page_greeting": "This is login page",
     "text_theme": "Change theme",
