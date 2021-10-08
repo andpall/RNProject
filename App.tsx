@@ -15,11 +15,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
 import Navigation from './src/navigator';
+import SecondNavigator from './src/actions/separating';
 
 const App: () => Node = () => {
   return (
     <NavigationContainer>
         <Navigation />
+        {/* <SecondNavigator /> */}
     </NavigationContainer>
   );
 };
