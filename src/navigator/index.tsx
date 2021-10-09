@@ -1,19 +1,16 @@
 import React, {useMemo, useState} from 'react';
-import {View} from 'react-native';
-
+import {useDispatch, useSelector} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 import LoginScreen from '../containers/auth';
 import HomeScreen from '../containers/home';
 
 import * as routes from '../constants/routes';
-import {strings} from '../i18n';
 import * as types from '../constants/actionTypes';
+import {strings} from '../i18n';
 
 import {AuthContext} from './context';
-import store from '../reducers/store';
-import authReducer from '../reducers/authReducer';
-import { useDispatch } from 'react-redux';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,23 +21,25 @@ type Props = {
 };
 
 const Navigation = () => {
-  // const [state, dispatch] = React.useReducer(authReducer, {isSignIn: false});
-  const dispatch = useDispatch()
-
-  const authContext = {
-    signIn: () => {
-      dispatch({type: types.LOGIN});
-    },
-    signOut: () => {
-      dispatch({type: types.LOGOUT});
-    },
-  };
+  const isSignIn = useSelector(state => state.auth.isSignIn);
+  const dispatch = useDispatch();
+  const authContext = useMemo(
+    () => ({
+      signIn: () => {
+        dispatch({type: types.LOGIN});
+      },
+      signOut: () => {
+        dispatch({type: types.LOGOUT});
+      },
+    }),
+    [],
+  );
 
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         <Stack.Navigator>
-          {!store.getState().auth.isSignIn ? (
+          {!isSignIn ? (
             <Stack.Screen
               name={routes.LOGIN_SCREEN}
               component={LoginScreen}

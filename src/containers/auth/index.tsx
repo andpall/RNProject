@@ -1,19 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
 import styles from './styles';
-import * as routes from '../../constants/routes';
 import {strings} from '../../i18n';
 import {AuthContext} from '../../navigator/context';
-import {PROPERTY_TYPES} from '@babel/types';
-// import store from '../../reducers/store';
 
 const LoginScreen: React.FC<Props> = (props) => {
 
   const {signIn} = React.useContext(AuthContext);
-  // const logIn = () => {
-  //   signIn();
-  //   props.navigation.navigate('HomeScreen');
-  // };
 
   return (
     <View style={styles.containerStyle}>

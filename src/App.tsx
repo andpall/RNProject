@@ -9,14 +9,12 @@
 import React from 'react';
 import type {Node} from 'react';
 import {Provider} from 'react-redux';
-import {StyleSheet, Text, View, Button} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
 import Navigation from './navigator';
-import store from './reducers/store';
+import store from './store/store';
 
 const App: () => Node = () => {
   return (
