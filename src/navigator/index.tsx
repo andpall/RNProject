@@ -22,12 +22,12 @@ type Props = {
 
 const Navigation = () => {
 
-  const auth = useAuth();
+  const {isSignIn} = useAuth();
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {!auth.isSignIn ? (
+        {!isSignIn ? (
           <Stack.Screen
             name={routes.LOGIN_SCREEN}
             component={LoginScreen}
