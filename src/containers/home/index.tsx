@@ -2,12 +2,18 @@ import React from 'react';
 import {View, Text, Button} from 'react-native';
 import styles from './styles';
 import {strings} from '../../i18n';
-import { AuthContext } from '../../navigator/context';
+
+import store from '../../store/store';
+import { signOut } from '../../actions';
+import { useDispatch } from 'react-redux';
 
 const HomeScreen: React.FC<Props> = (props) => {
 
-  const {signOut} = React.useContext(AuthContext);
-  
+  const dispatch = useDispatch();
+  const pressHandler = ()=> {
+    dispatch(signOut())
+  }
+
   return (
     <View style={styles.mainContainerStyle}>
       <Text>
@@ -16,7 +22,7 @@ const HomeScreen: React.FC<Props> = (props) => {
       </Text>
       <Button
         title={strings('buttons.logout')}
-        onPress={signOut}
+        onPress={pressHandler}
       />
     </View>
   );

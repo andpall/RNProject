@@ -10,8 +10,6 @@ import * as routes from '../constants/routes';
 import * as types from '../constants/actionTypes';
 import {strings} from '../i18n';
 
-import {AuthContext} from './context';
-
 const Stack = createNativeStackNavigator();
 
 type Props = {
@@ -23,20 +21,8 @@ type Props = {
 const Navigation = () => {
   const isSignIn = useSelector(state => state.auth.isSignIn);
   const dispatch = useDispatch();
-  const authContext = useMemo(
-    () => ({
-      signIn: () => {
-        dispatch({type: types.LOGIN});
-      },
-      signOut: () => {
-        dispatch({type: types.LOGOUT});
-      },
-    }),
-    [],
-  );
 
   return (
-    <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         <Stack.Navigator>
           {!isSignIn ? (
@@ -54,7 +40,6 @@ const Navigation = () => {
           )}
         </Stack.Navigator>
       </NavigationContainer>
-    </AuthContext.Provider>
   );
 };
 
