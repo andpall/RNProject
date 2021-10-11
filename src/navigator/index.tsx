@@ -1,13 +1,16 @@
-import React from 'react';
-import {View} from 'react-native';
-
+import React, {useEffect, useMemo, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginScrin from '../containers/auth';
+
+import LoginScreen from '../containers/auth';
 import HomeScreen from '../containers/home';
 
 import * as routes from '../constants/routes';
+import * as types from '../constants/actionTypes';
 import {strings} from '../i18n';
+import store from '../store/store';
+import useAuth from '../hooks/useAuth';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,19 +21,27 @@ type Props = {
 };
 
 const Navigation = () => {
+
+  const {isSignIn} = useAuth();
+
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name={routes.LOGIN_SCREEN}
-        component={LoginScrin}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name={routes.HOME_SCREEN}
-        component={HomeScreen}
-        options={{title: strings('titles.home_page_title')}}
-      />
-    </Stack.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator>
+        {!isSignIn ? (
+          <Stack.Screen
+            name={routes.LOGIN_SCREEN}
+            component={LoginScreen}
+            options={{headerShown: false}}
+          />
+        ) : (
+          <Stack.Screen
+            name={routes.HOME_SCREEN}
+            component={HomeScreen}
+            options={{title: strings('titles.home_page_title')}}
+          />
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

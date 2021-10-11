@@ -8,19 +8,19 @@
 
 import React from 'react';
 import type {Node} from 'react';
-import {StyleSheet, Text, View, Button} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {Provider} from 'react-redux';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
-import Navigation from './src/navigator';
+import Navigation from './navigator';
+import store from './store/store';
 
 const App: () => Node = () => {
   return (
-    <NavigationContainer>
+    <Provider store={store}>
         <Navigation />
-    </NavigationContainer>
+    </Provider>
   );
 };
 
