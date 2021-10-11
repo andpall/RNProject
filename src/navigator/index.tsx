@@ -27,7 +27,7 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {!auth.values.isSignIn ? (
+        {!auth.isSignIn ? (
           <Stack.Screen
             name={routes.LOGIN_SCREEN}
             component={LoginScreen}

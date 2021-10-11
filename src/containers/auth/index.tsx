@@ -4,16 +4,12 @@ import styles from './styles';
 import {strings} from '../../i18n';
 
 import store from '../../store/store';
-import {signIn} from '../../actions';
-import {useDispatch} from 'react-redux';
 import useAuth from '../../hooks/useAuth';
 
 const LoginScreen: React.FC<Props> = props => {
 
-  const dispatch = useDispatch();
-  const pressHandler = () => {
-    dispatch(signIn());
-  };
+  const {logIn} = useAuth();
+
   return (
     <View style={styles.containerStyle}>
       <Text style={styles.blackTextStyle}>
@@ -23,7 +19,7 @@ const LoginScreen: React.FC<Props> = props => {
       <Button
         title={strings('buttons.login')}
         color="black"
-        onPress={pressHandler}
+        onPress={logIn}
       />
     </View>
   );

@@ -4,15 +4,11 @@ import styles from './styles';
 import {strings} from '../../i18n';
 
 import store from '../../store/store';
-import { signOut } from '../../actions';
-import { useDispatch } from 'react-redux';
+import useAuth from '../../hooks/useAuth';
 
 const HomeScreen: React.FC<Props> = (props) => {
 
-  const dispatch = useDispatch();
-  const pressHandler = ()=> {
-    dispatch(signOut())
-  }
+  const {logOut} = useAuth(); 
 
   return (
     <View style={styles.mainContainerStyle}>
@@ -22,7 +18,7 @@ const HomeScreen: React.FC<Props> = (props) => {
       </Text>
       <Button
         title={strings('buttons.logout')}
-        onPress={pressHandler}
+        onPress={logOut}
       />
     </View>
   );

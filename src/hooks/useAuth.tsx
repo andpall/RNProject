@@ -6,8 +6,9 @@ import {signIn, signOut} from '../actions/index';
 const useAuth = () => {
   const dispatch = useDispatch();
   const values = useSelector(state => state.auth);
-  
-  return {values, dispatch, signOut, signIn};
+  const logIn = () => dispatch(signIn());
+  const logOut = () => dispatch(signOut());
+  return {...values, dispatch, logIn, logOut};
 };
 
 export default useAuth;
