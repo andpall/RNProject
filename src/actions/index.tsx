@@ -1,12 +1,12 @@
 import * as types from '../constants/actionTypes'
 
-export function signIn() {
+export const signIn = ()=> {
     return {
         type: types.LOGIN,
     };
 }
 
-export function signOut() {
+export const signOut = ()=> {
     return {
         type: types.LOGOUT,
     };

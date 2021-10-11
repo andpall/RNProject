@@ -6,6 +6,7 @@ import {strings} from '../../i18n';
 import store from '../../store/store';
 import {signIn} from '../../actions';
 import {useDispatch} from 'react-redux';
+import useAuth from '../../hooks/useAuth';
 
 const LoginScreen: React.FC<Props> = props => {
 
