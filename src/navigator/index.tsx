@@ -21,7 +21,6 @@ type Props = {
 };
 
 const Navigation = () => {
-
   const {isSignIn} = useAuth();
 
   return (

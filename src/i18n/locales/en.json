@@ -1,9 +1,13 @@
 {
-  "placeholder": {},
+  "placeholder": {
+    "username": "User Name (Your email)",
+    "password": "Password"
+  },
   "headers": {},
   "buttons": {
     "login": "Log in",
-    "logout": "Log out"
+    "logout": "Log out",
+    "signup": "Sign up"
   },
   "errors": {
   },
