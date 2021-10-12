@@ -19,15 +19,11 @@ const LoginScreen: React.FC<Props> = props => {
     username: yup.string().min(5).max(20).required(),
     password: yup.string().min(8).required(),
   });
-  const handleLogin = async () => {
+  const handleSignIn = async () => {
     try {
       await schema.validate({username, password});
       await auth().signInWithEmailAndPassword(username, password);
-      setUserName('');
-      setPassword('');
-      {
-        logIn();
-      }
+      logIn();
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -38,11 +34,7 @@ const LoginScreen: React.FC<Props> = props => {
       await schema.validate({username, password});
       await auth().createUserWithEmailAndPassword(username, password);
       console.log('User account created & signed in!');
-      setUserName('');
-      setPassword('');
-      {
-        logIn();
-      }
+      logIn();
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -73,7 +65,7 @@ const LoginScreen: React.FC<Props> = props => {
       <Text style={styles.errorText}>
         {errorMessage !== '' ? errorMessage : ' '}
       </Text>
-      <Pressable style={styles.button} onPress={handleLogin}>
+      <Pressable style={styles.button} onPress={handleSignIn}>
         <Text style={styles.buttonText}>{strings('buttons.login')} </Text>
       </Pressable>
       <Pressable style={styles.button} onPress={handleSignUp}>
