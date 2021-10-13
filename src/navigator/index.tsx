@@ -5,15 +5,16 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import LoginScreen from '../containers/auth';
 import HomeScreen from '../containers/home';
+import PhoneAuthScreen from '../containers/auth/phone_auth';
 
 import * as routes from '../constants/routes';
 import * as types from '../constants/actionTypes';
 import {strings} from '../i18n';
-import store from '../store/store';
 import useAuth from '../hooks/useAuth';
-import PhoneAuth from '../containers/auth/phone_auth';
+
 
 const Stack = createNativeStackNavigator();
+
 
 type Props = {
   name: string;
@@ -22,28 +23,24 @@ type Props = {
 };
 
 const Navigation = () => {
-  const {isSignIn, isSignPhone} = useAuth();
-  // useEffect(()=>{
-  //   console.debug(isSignPhone)
-  // });
+  const {isSignIn} = useAuth();
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {!isSignIn ? (
-          !isSignPhone ? (
+          <>
             <Stack.Screen
               name={routes.LOGIN_SCREEN}
               component={LoginScreen}
               options={{headerShown: false}}
             />
-          ) : (
             <Stack.Screen
               name={routes.PHONE_LOGIN_SCREEN}
-              component={PhoneAuth}
+              component={PhoneAuthScreen}
               options={{headerShown: false}}
             />
-          )
+          </>
         ) : (
           <Stack.Screen
             name={routes.HOME_SCREEN}

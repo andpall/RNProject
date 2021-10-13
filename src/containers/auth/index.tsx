@@ -10,6 +10,7 @@ import store from '../../store/store';
 
 import GoogleSignInButton from './google_auth';
 import useAuth from '../../hooks/useAuth';
+import * as routes from '../../constants/routes'
 
 const LoginScreen: React.FC<Props> = props => {
   const {logIn, logInWithPhone} = useAuth();
@@ -40,6 +41,10 @@ const LoginScreen: React.FC<Props> = props => {
       setErrorMessage(error.message);
     }
   };
+
+  const handleSignInWithPhone = () => {
+    props.navigation.navigate(routes.PHONE_LOGIN_SCREEN);
+  }
 
   useEffect(() => {
     setErrorMessage('');
@@ -72,7 +77,7 @@ const LoginScreen: React.FC<Props> = props => {
       <Pressable style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>{strings('buttons.signup')} </Text>
       </Pressable>
-      <Pressable style={styles.button} onPress={logInWithPhone}>
+      <Pressable style={styles.button} onPress={handleSignInWithPhone}>
         <Text style={styles.buttonText}>{strings('buttons.login_with_phone')} </Text>
       </Pressable>
       <GoogleSignInButton/>

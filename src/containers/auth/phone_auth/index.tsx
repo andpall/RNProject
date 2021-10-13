@@ -8,9 +8,9 @@ import {strings} from '../../../i18n';
 
 import store from '../../../store/store';
 import useAuth from '../../../hooks/useAuth';
-import { signInWithPhone } from '../../../actions';
+import * as routes from '../../../constants/routes'
 
-function PhoneAuth() {
+function PhoneAuthScreen(props) {
   // If null, no SMS has been sent
   const [phoneNumber, setPhoneNumber] = useState('');
   const [confirm, setConfirm] = useState(null);
@@ -36,6 +36,10 @@ function PhoneAuth() {
     }
   };
 
+  const handleBack = () => {
+    props.navigation.navigate(routes.LOGIN_SCREEN);
+  }
+
   return (
     <View>
       {!confirm ? (
@@ -52,7 +56,7 @@ function PhoneAuth() {
           </Pressable>
           <Pressable
             style={styles.button}
-            onPress={logOut}>
+            onPress={handleBack}>
             <Text style={styles.buttonText}>{strings('buttons.logout')}</Text>
           </Pressable>
           <Text style={styles.errorText}>
@@ -72,7 +76,7 @@ function PhoneAuth() {
           </Pressable>
           <Pressable
             style={styles.button}
-            onPress={logOut}>
+            onPress={handleBack}>
             <Text style={styles.buttonText}>{strings('buttons.logout')}</Text>
           </Pressable>
           <Text style={styles.errorText}>
@@ -84,4 +88,4 @@ function PhoneAuth() {
   );
 }
 
-export default PhoneAuth;
+export default PhoneAuthScreen;

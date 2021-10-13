@@ -12,12 +12,6 @@ export const signOut = () => {
   };
 };
 
-export const signInWithPhone = () => {
-  return {
-    type: types.LOGIN_WITH_PHONE,
-  };
-};
-
 export const setUsername = (data: {}) => ({
   type: types.SET_USERNAME,
   payload: data,
