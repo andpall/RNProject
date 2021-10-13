@@ -11,6 +11,7 @@ import * as types from '../constants/actionTypes';
 import {strings} from '../i18n';
 import store from '../store/store';
 import useAuth from '../hooks/useAuth';
+import PhoneAuth from '../containers/auth/phone_auth';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,17 +22,28 @@ type Props = {
 };
 
 const Navigation = () => {
-  const {isSignIn} = useAuth();
+  const {isSignIn, isSignPhone} = useAuth();
+  // useEffect(()=>{
+  //   console.debug(isSignPhone)
+  // });
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {!isSignIn ? (
-          <Stack.Screen
-            name={routes.LOGIN_SCREEN}
-            component={LoginScreen}
-            options={{headerShown: false}}
-          />
+          !isSignPhone ? (
+            <Stack.Screen
+              name={routes.LOGIN_SCREEN}
+              component={LoginScreen}
+              options={{headerShown: false}}
+            />
+          ) : (
+            <Stack.Screen
+              name={routes.PHONE_LOGIN_SCREEN}
+              component={PhoneAuth}
+              options={{headerShown: false}}
+            />
+          )
         ) : (
           <Stack.Screen
             name={routes.HOME_SCREEN}

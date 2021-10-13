@@ -2,6 +2,7 @@ import * as types from '../constants/actionTypes';
 
 let initialState = {
   isSignIn: false,
+  isSignPhone: false
 };
 
 const authReducer = (state = initialState, action) => {
@@ -10,12 +11,21 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isSignIn: true,
+        isSignPhone: false,
       };
     }
     case types.LOGOUT: {
       return {
         ...state,
         isSignIn: false,
+        isSignPhone : false,
+      };
+    }
+    case types.LOGIN_WITH_PHONE: {
+      return {
+        ...state,
+        isSignIn: false,
+        isSignPhone : true,
       };
     }
     default: {

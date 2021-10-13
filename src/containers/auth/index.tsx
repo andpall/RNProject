@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TextInput, Pressable, StyleSheet} from 'react-native';
+import {View, Text, TextInput, Pressable} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import * as yup from 'yup';
 
@@ -7,10 +7,12 @@ import styles from './styles';
 import {strings} from '../../i18n';
 
 import store from '../../store/store';
+
+import GoogleSignInButton from './google_auth';
 import useAuth from '../../hooks/useAuth';
 
 const LoginScreen: React.FC<Props> = props => {
-  const {logIn} = useAuth();
+  const {logIn, logInWithPhone} = useAuth();
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -33,7 +35,6 @@ const LoginScreen: React.FC<Props> = props => {
     try {
       await schema.validate({username, password});
       await auth().createUserWithEmailAndPassword(username, password);
-      console.log('User account created & signed in!');
       logIn();
     } catch (error) {
       setErrorMessage(error.message);
@@ -60,7 +61,7 @@ const LoginScreen: React.FC<Props> = props => {
         secureTextEntry={secure}
         placeholder={strings('placeholder.password')}
         onChangeText={input => setPassword(input)}
-        textAlign={'center'}
+        
       />
       <Text style={styles.errorText}>
         {errorMessage !== '' ? errorMessage : ' '}
@@ -71,6 +72,10 @@ const LoginScreen: React.FC<Props> = props => {
       <Pressable style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>{strings('buttons.signup')} </Text>
       </Pressable>
+      <Pressable style={styles.button} onPress={logInWithPhone}>
+        <Text style={styles.buttonText}>{strings('buttons.login_with_phone')} </Text>
+      </Pressable>
+      <GoogleSignInButton/>
     </View>
   );
 };
