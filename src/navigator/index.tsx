@@ -12,9 +12,7 @@ import * as types from '../constants/actionTypes';
 import {strings} from '../i18n';
 import useAuth from '../hooks/useAuth';
 
-
 const Stack = createNativeStackNavigator();
-
 
 type Props = {
   name: string;
