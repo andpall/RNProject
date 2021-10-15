@@ -5,10 +5,10 @@ import * as yup from 'yup';
 
 import styles from './styles';
 import {strings} from '../../../i18n';
+import Button from '../../../components/button';
 
-import store from '../../../store/store';
 import useAuth from '../../../hooks/useAuth';
-import * as routes from '../../../constants/routes'
+import * as routes from '../../../constants/routes';
 
 function PhoneAuthScreen(props) {
   // If null, no SMS has been sent
@@ -16,7 +16,7 @@ function PhoneAuthScreen(props) {
   const [confirm, setConfirm] = useState(null);
   const [code, setCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  // Handle the button press
+
   const signInWithPhoneNumber = async () => {
     try {
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
@@ -25,7 +25,7 @@ function PhoneAuthScreen(props) {
       setErrorMessage(error.message);
     }
   };
-  const {logIn, logOut} = useAuth();
+  const {logIn} = useAuth();
 
   const confirmCode = async () => {
     try {
@@ -38,52 +38,37 @@ function PhoneAuthScreen(props) {
 
   const handleBack = () => {
     props.navigation.navigate(routes.LOGIN_SCREEN);
-  }
+  };
 
   return (
-    <View>
+    <View style={styles.containerStyle}>
       {!confirm ? (
-        <View style={styles.containerStyle}>
+        <>
           <TextInput
-            placeholder="Press phone"
+            placeholder={strings('placeholder.enter_phone')}
             style={styles.textInputStyle}
             onChangeText={setPhoneNumber}
           />
-          <Pressable
-            style={styles.button}
-            onPress={signInWithPhoneNumber}>
-            <Text style={styles.buttonText}>{strings('buttons.login')}</Text>
-          </Pressable>
-          <Pressable
-            style={styles.button}
-            onPress={handleBack}>
-            <Text style={styles.buttonText}>{strings('buttons.logout')}</Text>
-          </Pressable>
-          <Text style={styles.errorText}>
-            {errorMessage !== '' ? errorMessage : ' '}
-          </Text>
-        </View>
+          <Button
+            onPress={signInWithPhoneNumber}
+            title={strings('buttons.login')}
+          />
+        </>
       ) : (
-        <View style={styles.containerStyle}>
+        <>
           <TextInput
-            placeholder="Code"
+            placeholder={strings('placeholder.code')}
             style={styles.textInputStyle}
             value={code}
             onChangeText={setCode}
           />
-          <Pressable style={styles.button} onPress={() => confirmCode()}>
-            <Text style={styles.buttonText}>{strings('buttons.login')}</Text>
-          </Pressable>
-          <Pressable
-            style={styles.button}
-            onPress={handleBack}>
-            <Text style={styles.buttonText}>{strings('buttons.logout')}</Text>
-          </Pressable>
-          <Text style={styles.errorText}>
-            {errorMessage !== '' ? errorMessage : ' '}
-          </Text>
-        </View>
+          <Button onPress={confirmCode} title={strings('buttons.login')} />
+        </>
       )}
+      <Button onPress={handleBack} title={strings('buttons.logout')} />
+      <Text style={styles.errorText}>
+        {errorMessage !== '' ? errorMessage : ' '}
+      </Text>
     </View>
   );
 }

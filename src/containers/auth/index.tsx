@@ -15,7 +15,7 @@ import * as routes from '../../constants/routes';
 
 
 const LoginScreen: React.FC<Props> = props => {
-  const {logIn, logInWithPhone} = useAuth();
+  const {logIn} = useAuth();
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');

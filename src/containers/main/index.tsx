@@ -4,12 +4,19 @@ import auth from '@react-native-firebase/auth';
 
 import styles from './styles';
 import {strings} from '../../i18n';
+import * as routes from '../../constants/routes';
 
 import useAuth from '../../hooks/useAuth';
+import Button from '../../components/button';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 const image = '../../assets/images/nebula.jpg';
 
-const HomeScreen: React.FC<Props> = props => {
+type Props = {
+  navigation: undefined,
+}
+
+const HomeScreen: React.FC<Props> = (props: NativeStackScreenProps<RootStackParamList>) => {
   const {logOut} = useAuth();
   const handleSignOut = async () => {
     try {
@@ -20,6 +27,10 @@ const HomeScreen: React.FC<Props> = props => {
     }
   };
 
+  const handleGoChats = () => {
+    props.navigation.navigate(routes.USER_CHATS);
+  };
+
   return (
     <View style={styles.mainContainerStyle}>
       <ImageBackground source={require(image)} style={styles.image}>
@@ -28,9 +39,12 @@ const HomeScreen: React.FC<Props> = props => {
             {strings('simple_texts.home_page_greeting')}
             {/* {route.params.login} */}
           </Text>
-          <Pressable style={styles.button} onPress={handleSignOut}>
-            <Text style={styles.whiteText}>{strings('buttons.logout')}</Text>
-          </Pressable>
+          <Button onPress={handleGoChats} title="Chats" />
+          <Button
+            style={styles.button}
+            onPress={handleSignOut}
+            title={strings('buttons.logout')}
+          />
         </View>
       </ImageBackground>
     </View>
