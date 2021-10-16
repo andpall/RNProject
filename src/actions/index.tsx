@@ -11,8 +11,3 @@ export const signOut = () => {
     type: types.LOGOUT,
   };
 };
-
-export const setUsername = (data: {}) => ({
-  type: types.SET_USERNAME,
-  payload: data,
-});
