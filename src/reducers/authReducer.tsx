@@ -18,6 +18,12 @@ const authReducer = (state = initialState, action) => {
         isSignIn: false,
       };
     }
+    case types.LOGIN_WITH_PHONE: {
+      return {
+        ...state,
+        isSignIn: false,
+      };
+    }
     default: {
       return state;
     }

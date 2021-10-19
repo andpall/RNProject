@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     width: '80%',
     alignContent: 'center',
     marginVertical: 7,
-    textAlign:'center',
+    textAlign: "center",
   },
   containerStyle: {
     flexDirection: 'column',
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   },
   button: {
     color: "black",
+    textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,

@@ -1,18 +1,26 @@
 {
-  "placeholder": {},
+  "placeholder": {
+    "username": "User Name (Your email)",
+    "password": "Password",
+    "enter_phone": "Enter phone number",
+    "code": "code"
+  },
   "headers": {},
   "buttons": {
     "login": "Log in",
-    "logout": "Log out"
+    "logout": "Log out",
+    "signup": "Sign up",
+    "confirm": "Confirm",
+    "login_with_phone": "Sign in with phone",
+    "google_login": "Sign with Google"
   },
-  "errors": {
-  },
-  "titles":{
-      "home_page_title": "Home Page"
+  "errors": {},
+  "titles": {
+    "home_page_title": "Home Page"
   },
   "simple_texts": {
     "login_page_greeting": "This is login page",
     "text_theme": "Change theme",
-    "home_page_greeting":"This is main page of "
+    "home_page_greeting": "This is main page of "
   }
 }
