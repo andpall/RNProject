@@ -11,7 +11,7 @@ const putFile = (filename: string) => {
 
   const reference = storage().ref('images');
 
-  function listFilesAndDirectories(reference, pageToken) {
+  const listFilesAndDirectories = (reference, pageToken) => {
     return reference.list({pageToken}).then(result => {
       // Loop over each item
       result.items.forEach(ref => {
@@ -24,5 +24,5 @@ const putFile = (filename: string) => {
 
       return Promise.resolve();
     });
-  }
+  };
 };

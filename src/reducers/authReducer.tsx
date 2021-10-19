@@ -2,7 +2,6 @@ import * as types from '../constants/actionTypes';
 
 let initialState = {
   isSignIn: false,
-  isSignPhone: false
 };
 
 const authReducer = (state = initialState, action) => {
