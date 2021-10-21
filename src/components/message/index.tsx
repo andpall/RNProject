@@ -13,7 +13,7 @@ interface MessageProps {
 
 const MessageItem = (props: MessageProps) => {
   const {message, myId} = props;
-  const isMyMessage = () => myId === message.user.id;
+  const isMyMessage = () => myId === message.user
 
   return (
     <View style={styles.container}>
@@ -26,8 +26,8 @@ const MessageItem = (props: MessageProps) => {
             marginRight: isMyMessage() ? 0 : 50,
           },
         ]}>
-        {!isMyMessage() && <Text style={styles.name}>{message.user.name}</Text>}
-        <Text style={styles.message}>{message.content}</Text>
+        {!isMyMessage() && <Text style={styles.name}>{message.user}</Text>}
+        <Text style={styles.message}>{message.text}</Text>
       </View>
     </View>
   );

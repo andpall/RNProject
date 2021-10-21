@@ -5,13 +5,22 @@ export type User = {
 };
 
 export type Message = {
-  id: string;
-  content: string;
-  user: User;
+  id?: string;
+  createdAt: number;
+  text: string;
+  user: string;
 };
 
 export type Conversation = {
   id: string;
   user: User;
   lastMessage: string;
+};
+
+export type conversation = {
+  id: string;
+  lastMessage: Message;
+  messages: Message[];
+  mateName?: string;
+  user?: string;
 };

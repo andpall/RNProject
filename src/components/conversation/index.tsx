@@ -1,26 +1,55 @@
-import React from 'react';
-import {Text, Pressable, View, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Text, Pressable, View, Image, ActivityIndicator} from 'react-native';
 import styles from './styles';
+import auth, {firebase} from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 import * as routes from '../../constants/routes';
 import {useNavigation} from '@react-navigation/native';
+import {conversation} from '../../types';
 
 interface Props {
-  id?: string;
-  mateName?: string;
-  lastMessage?: string;
+  // conv: conversation;
+  convId: string;
 }
 const Converstation = (props: Props) => {
   const navigation = useNavigation();
-  const {
-    id = Date.now().toString(),
-    mateName = '',
-    lastMessage = 'Some example long message with demonstration of comething',
-  } = props;
+  const {convId = ''} = props;
+
+  const user = firebase.auth().currentUser;
+  const userUid = user?.uid;
+  const [loading, setLoading] = useState(true);
+  const [docName, setDocName] = useState('');
+  const [conversation, setConversation] = useState({});
+  const [textOfLastMessage, setTextOfLastMessage] = useState('');
+
+  useEffect(() => {
+    firestore()
+      .collection('conversations')
+      .where('id', '==', convId)
+      .get()
+      .then(({docs}) => {
+        const dataId = docs[0].id;
+        const dataItem = docs[0].data();
+        setDocName(dataId);
+        setConversation(dataItem);
+        setTextOfLastMessage(dataItem.lastMessage.text);
+        setLoading(false);
+      });
+  }, []);
 
   const pressHanlder = () => {
-    navigation.navigate(routes.CHAT, {id: '', condId: '', mateId: ''});
+    navigation.navigate(routes.CHAT, {
+      docName,
+      myId: userUid,
+      mateId: '',
+      messages: conversation.messages,
+    });
   };
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <Pressable style={styles.mainContainer} onPress={pressHanlder}>
@@ -30,9 +59,9 @@ const Converstation = (props: Props) => {
           style={styles.avatar}
         />
         <View style={styles.midContainer}>
-          <Text style={styles.username}>{mateName}</Text>
+          <Text style={styles.username}>{conversation.user}</Text>
           <Text numberOfLines={2} style={styles.lastMessage}>
-            {lastMessage}
+            {textOfLastMessage}
           </Text>
         </View>
       </View>

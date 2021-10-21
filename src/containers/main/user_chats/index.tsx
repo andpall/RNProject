@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, ScrollView, TextInput, FlatList} from 'react-native';
-import auth from '@react-native-firebase/auth';
+import auth, {firebase} from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 import styles from './styles';
 import {strings} from '../../../i18n';
@@ -10,24 +11,23 @@ import * as routes from '../../../constants/routes';
 import useAuth from '../../../hooks/useAuth';
 import Converstation from '../../../components/conversation';
 import {useNavigation} from '@react-navigation/core';
-import { Conversation } from '../../../types';
 
-type Chat = {
-  id: string;
-  name: string;
-};
-
-interface ExCompProps {
-  onCall: (arg: string) => void;
-}
-
-const SearchAndAddConversation = (props: ExCompProps) => {
-  const {onCall} = props;
+const SearchAndAddConversation = () => {
   const navigation = useNavigation();
   const [searchinName, setSearchinName] = useState<string>('');
 
   const pressHandler = () => {
-    onCall(searchinName);
+    firestore()
+      .collection('conversations')
+      .add({
+        id: Date.now(),
+        user: `${searchinName}`,
+        lastMessage: {
+          createdAt: Date.now(),
+          text: '',
+        },
+        messages: [{createdAt: '', text: '', user: ''}],
+      });
   };
 
   const handlePressBack = () => {
@@ -49,35 +49,35 @@ const SearchAndAddConversation = (props: ExCompProps) => {
 };
 
 const UserChats: React.FC = () => {
-  const [chats, setChats] = useState<Conversation[]>([]);
+  const [chats, setChats] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const addConversation = (name: string) => {
-    setChats(allChats => [
-      ...allChats,
-      {
-        id: Date.now().toString(),
-        lastMessage: '',
-        user: {
-            id: '',
-            name,
-            imageUri: '',
-        }
-      },
-    ]);
-  };
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('conversations')
+      .onSnapshot(querySnapshot => {
+        const chats = [];
+        querySnapshot.forEach(documentSnapshot => {
+          chats.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+        setChats(chats);
+        setLoading(false);
+      });
+    return () => subscriber();
+  }, []);
 
   return (
     <View style={{flex: 1}}>
-      <SearchAndAddConversation onCall={addConversation} />
+      <SearchAndAddConversation />
       <View style={{alignContent: 'flex-start'}}>
         <FlatList
           data={chats}
-          renderItem={({item}) => (
-            <Converstation
-              key={item.id}
-              mateName ={item.user.name}
-            />
-          )}
+          renderItem={({item}) => {
+            return <Converstation key={item.id} convId={item.id} />;
+          }}
           inverted
         />
       </View>
