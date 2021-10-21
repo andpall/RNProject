@@ -4,9 +4,14 @@ import styles from './styles';
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
+import avatar from '../../assets/images/logo.jpg';
 import * as routes from '../../constants/routes';
+import * as db from '../../constants/db';
+
 import {useNavigation} from '@react-navigation/native';
 import {conversation} from '../../types';
+import useChat from '../../hooks/useChat';
+import { finishLoad, startLoad } from '../../actions';
 
 interface Props {
   // conv: conversation;
@@ -18,14 +23,18 @@ const Converstation = (props: Props) => {
 
   const user = firebase.auth().currentUser;
   const userUid = user?.uid;
-  const [loading, setLoading] = useState(true);
+  const {isLoading, startLoading, endLoading} = useChat();
   const [docName, setDocName] = useState('');
   const [conversation, setConversation] = useState({});
   const [textOfLastMessage, setTextOfLastMessage] = useState('');
 
   useEffect(() => {
+    startLoad()
+  })
+
+  useEffect(() => {
     firestore()
-      .collection('conversations')
+      .collection(db.COLLECTION)
       .where('id', '==', convId)
       .get()
       .then(({docs}) => {
@@ -33,8 +42,11 @@ const Converstation = (props: Props) => {
         const dataItem = docs[0].data();
         setDocName(dataId);
         setConversation(dataItem);
-        setTextOfLastMessage(dataItem.lastMessage.text);
-        setLoading(false);
+        // setTextOfLastMessage(dataItem.lastMessage.text);
+        setTextOfLastMessage(
+          dataItem.messages[dataItem.messages.length - 1].text,
+        );
+        finishLoad();
       });
   }, []);
 
@@ -47,7 +59,7 @@ const Converstation = (props: Props) => {
     });
   };
 
-  if (loading) {
+  if (isLoading) {
     return <ActivityIndicator />;
   }
 
@@ -55,7 +67,7 @@ const Converstation = (props: Props) => {
     <Pressable style={styles.mainContainer} onPress={pressHanlder}>
       <View style={styles.lefContainer}>
         <Image
-          source={require('../../assets/images/logo.jpg')}
+          source={avatar}
           style={styles.avatar}
         />
         <View style={styles.midContainer}>

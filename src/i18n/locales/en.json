@@ -3,7 +3,9 @@
     "username": "User Name (Your email)",
     "password": "Password",
     "enter_phone": "Enter phone number",
-    "code": "code"
+    "code": "code",
+    "enter_text": "Enter text",
+    "type_message": "Type a message"
   },
   "headers": {},
   "buttons": {
@@ -11,6 +13,7 @@
     "logout": "Log out",
     "signup": "Sign up",
     "confirm": "Confirm",
+    "send": "Send",
     "login_with_phone": "Sign in with phone",
     "google_login": "Sign with Google"
   },

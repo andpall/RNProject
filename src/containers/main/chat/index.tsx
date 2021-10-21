@@ -11,6 +11,7 @@ import Button from '../../../components/button';
 
 import useAuth from '../../../hooks/useAuth';
 import * as routes from '../../../constants/routes';
+import * as db from '../../../constants/db';
 
 import ChatMessage from '../../../components/message';
 import BG from '../../../assets/images/nebula.jpg';
@@ -33,7 +34,6 @@ const ChatScreen = ({route}) => {
 
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState('');
-  const [conversation, setConversation] = useState('');
 
   const handlePressBack = () => {
     navigation.navigate(routes.USER_CHATS);
@@ -52,9 +52,6 @@ const ChatScreen = ({route}) => {
             user: myId,
           },
         ],
-      })
-      .then(() => {
-        console.debug('Message sent');
       });
   };
 
@@ -62,17 +59,17 @@ const ChatScreen = ({route}) => {
     return documentSnapshot.get('messages');
   };
 
-  const onResult = (QuerySnapshot) => {
+  const onResult = QuerySnapshot => {
     setMessages(getMessages(QuerySnapshot));
-  }
+  };
 
-  const onError = (error) => {
+  const onError = error => {
     console.error(error);
-  }
+  };
 
   useEffect(() => {
     const subscriber = firestore()
-      .collection('conversations')
+      .collection(db.COLLECTION)
       .doc(docName)
       .onSnapshot(onResult, onError);
     return () => subscriber();
@@ -91,7 +88,7 @@ const ChatScreen = ({route}) => {
       />
       <View style={styles.textInputContainer}>
         <TextInput
-          placeholder={'Type a message'}
+          placeholder={strings('placeholder.type_message')}
           style={styles.textInput}
           multiline
           value={message}
@@ -99,7 +96,7 @@ const ChatScreen = ({route}) => {
         />
         <Button
           style={styles.buttonSend}
-          title="send"
+          title={strings('buttons.send')}
           onPress={handlePressSend}
         />
       </View>

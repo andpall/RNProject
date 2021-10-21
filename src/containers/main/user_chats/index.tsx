@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ScrollView, TextInput, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
@@ -7,10 +14,13 @@ import styles from './styles';
 import {strings} from '../../../i18n';
 import Button from '../../../components/button';
 import * as routes from '../../../constants/routes';
+import * as db from '../../../constants/db';
 
 import useAuth from '../../../hooks/useAuth';
 import Converstation from '../../../components/conversation';
 import {useNavigation} from '@react-navigation/core';
+import useChat from '../../../hooks/useChat';
+import {finishLoad} from '../../../actions';
 
 const SearchAndAddConversation = () => {
   const navigation = useNavigation();
@@ -18,13 +28,14 @@ const SearchAndAddConversation = () => {
 
   const pressHandler = () => {
     firestore()
-      .collection('conversations')
+      .collection(db.COLLECTION)
       .add({
         id: Date.now(),
         user: `${searchinName}`,
         lastMessage: {
           createdAt: Date.now(),
           text: '',
+          user: '',
         },
         messages: [{createdAt: '', text: '', user: ''}],
       });
@@ -50,11 +61,12 @@ const SearchAndAddConversation = () => {
 
 const UserChats: React.FC = () => {
   const [chats, setChats] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {isLoading, startLoading, endLoading} = useChat();
 
   useEffect(() => {
+    startLoading();
     const subscriber = firestore()
-      .collection('conversations')
+      .collection(db.COLLECTION)
       .onSnapshot(querySnapshot => {
         const chats = [];
         querySnapshot.forEach(documentSnapshot => {
@@ -64,10 +76,14 @@ const UserChats: React.FC = () => {
           });
         });
         setChats(chats);
-        setLoading(false);
+        endLoading();
       });
     return () => subscriber();
   }, []);
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <View style={{flex: 1}}>
