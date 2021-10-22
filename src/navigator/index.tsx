@@ -14,6 +14,8 @@ import {strings} from '../i18n';
 import useAuth from '../hooks/useAuth';
 import UserChats from '../containers/main/user_chats';
 import ChatScreen from '../containers/main/chat';
+import Button from '../components/button';
+import Header from '../components/header';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -32,7 +34,15 @@ const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerBackVisible: true,
+          headerStyle: {backgroundColor: 'transparent'},
+          headerTintColor: '#c4c8cc',
+          headerShown: false,
+          headerTransparent: true,
+          // header: props => <Header {...props} />,
+        }}>
         {!isSignIn ? (
           <>
             <Stack.Screen
@@ -53,9 +63,6 @@ const Navigation = () => {
               component={HomeScreen}
               options={{
                 title: strings('titles.home_page_title'),
-                headerStyle: {backgroundColor: 'black'},
-                headerTintColor: 'white',
-                headerShown: false,
               }}
             />
             <Stack.Screen
@@ -63,8 +70,6 @@ const Navigation = () => {
               component={UserChats}
               options={{
                 title: strings('titles.home_page_title'),
-                headerStyle: {backgroundColor: 'black'},
-                headerTintColor: 'white',
                 headerShown: false,
               }}
             />
@@ -72,10 +77,9 @@ const Navigation = () => {
               name={routes.CHAT}
               component={ChatScreen}
               options={{
-                title: strings('titles.home_page_title'),
-                headerStyle: {backgroundColor: 'black'},
-                headerTintColor: 'white',
-                headerShown: false,
+                // title: strings('titles.chat_title'),
+                title: '',
+                headerShown: true,
               }}
             />
           </>

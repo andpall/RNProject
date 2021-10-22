@@ -19,7 +19,8 @@
   },
   "errors": {},
   "titles": {
-    "home_page_title": "Home Page"
+    "home_page_title": "Home Page",
+    "chat_title": "Chat"
   },
   "simple_texts": {
     "login_page_greeting": "This is login page",

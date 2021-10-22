@@ -17,6 +17,7 @@ import ChatMessage from '../../../components/message';
 import BG from '../../../assets/images/nebula.jpg';
 import {Message} from '../../../types';
 import MessageItem from '../../../components/message';
+import {sendMessage, subscribeOnNewMessages} from '../../../services/firestore';
 
 interface Props {
   myId: string;
@@ -35,52 +36,24 @@ const ChatScreen = ({route}) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState('');
 
-  const handlePressBack = () => {
-    navigation.navigate(routes.USER_CHATS);
-  };
-
   const handlePressSend = () => {
-    firestore()
-      .collection('conversations')
-      .doc(docName)
-      .update({
-        messages: [
-          ...messages,
-          {
-            createdAt: Date.now(),
-            text: message,
-            user: myId,
-          },
-        ],
-      });
-  };
-
-  const getMessages = documentSnapshot => {
-    return documentSnapshot.get('messages');
-  };
-
-  const onResult = QuerySnapshot => {
-    setMessages(getMessages(QuerySnapshot));
-  };
-
-  const onError = error => {
-    console.error(error);
+    sendMessage(
+      {
+        createdAt: Date.now(),
+        text: message,
+        user: myId,
+      },
+      docName,
+    );
   };
 
   useEffect(() => {
-    const subscriber = firestore()
-      .collection(db.COLLECTION)
-      .doc(docName)
-      .onSnapshot(onResult, onError);
-    return () => subscriber();
+    subscribeOnNewMessages(setMessages, docName)
   }, [docName]);
 
   return (
     <ImageBackground style={{width: '100%', height: '100%'}} source={BG}>
-      <View style={{flexDirection: 'row'}}>
-        <Button title="<" style={styles.buttonBack} onPress={handlePressBack} />
-      </View>
-      <FlatList
+      <FlatList style = {{marginTop: 50}}
         data={messages}
         renderItem={({item}) => (
           <MessageItem myId={myId} message={item} mateId={mateId} />

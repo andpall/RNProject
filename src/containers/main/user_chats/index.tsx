@@ -21,30 +21,19 @@ import Converstation from '../../../components/conversation';
 import {useNavigation} from '@react-navigation/core';
 import useChat from '../../../hooks/useChat';
 import {finishLoad} from '../../../actions';
+import {createNewConversation, getAllChats} from '../../../services/firestore';
 
 const SearchAndAddConversation = () => {
   const navigation = useNavigation();
   const [searchinName, setSearchinName] = useState<string>('');
 
-  const pressHandler = () => {
-    firestore()
-      .collection(db.COLLECTION)
-      .add({
-        id: Date.now(),
-        user: `${searchinName}`,
-        lastMessage: {
-          createdAt: Date.now(),
-          text: '',
-          user: '',
-        },
-        messages: [{createdAt: '', text: '', user: ''}],
-      });
-  };
-
   const handlePressBack = () => {
     navigation.navigate(routes.HOME_SCREEN);
   };
 
+  const pressHandler = () => {
+    createNewConversation(searchinName);
+  };
   return (
     <View style={{flexDirection: 'row'}}>
       <Button title="<" style={styles.buttonBack} onPress={handlePressBack} />
@@ -64,21 +53,8 @@ const UserChats: React.FC = () => {
   const {isLoading, startLoading, endLoading} = useChat();
 
   useEffect(() => {
-    startLoading();
-    const subscriber = firestore()
-      .collection(db.COLLECTION)
-      .onSnapshot(querySnapshot => {
-        const chats = [];
-        querySnapshot.forEach(documentSnapshot => {
-          chats.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
-        });
-        setChats(chats);
-        endLoading();
-      });
-    return () => subscriber();
+    getAllChats(setChats);
+    endLoading();
   }, []);
 
   if (isLoading) {
@@ -86,14 +62,14 @@ const UserChats: React.FC = () => {
   }
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.fullFlex}>
       <SearchAndAddConversation />
-      <View style={{alignContent: 'flex-start'}}>
+      <View style={styles.alignStart}>
         <FlatList
           data={chats}
-          renderItem={({item}) => {
-            return <Converstation key={item.id} convId={item.id} />;
-          }}
+          renderItem={({item}) => (
+            <Converstation key={item.id} convId={item.id} />
+          )}
           inverted
         />
       </View>

@@ -9,6 +9,17 @@ const styles = StyleSheet.create({
   blackTextStyle: {
     color: 'black',
   },
+  buttonBack: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#c4c8cc',
+    width: 40,
+    height: 40,
+    borderWidth: 0,
+    borderColor: 'grey',
+    borderRadius: 2,
+    marginVertical: 15,
+  },
 });
 
 export default styles;

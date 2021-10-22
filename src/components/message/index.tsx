@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {Text, View} from 'react-native';
 import styles from './styles';
 
@@ -13,7 +13,7 @@ interface MessageProps {
 
 const MessageItem = (props: MessageProps) => {
   const {message, myId} = props;
-  const isMyMessage = () => myId === message.user
+  const isMyMessage = useMemo(() => (myId === message.user), [myId])
 
   return (
     <View style={styles.container}>
@@ -21,12 +21,12 @@ const MessageItem = (props: MessageProps) => {
         style={[
           styles.messageBox,
           {
-            backgroundColor: isMyMessage() ? '#DCF8C5' : 'white',
-            marginLeft: isMyMessage() ? 50 : 0,
-            marginRight: isMyMessage() ? 0 : 50,
+            backgroundColor: isMyMessage ? '#DCF8C5' : 'white',
+            marginLeft: isMyMessage ? 50 : 0,
+            marginRight: isMyMessage ? 0 : 50,
           },
         ]}>
-        {!isMyMessage() && <Text style={styles.name}>{message.user}</Text>}
+        {!isMyMessage && <Text style={styles.name}>{message.user}</Text>}
         <Text style={styles.message}>{message.text}</Text>
       </View>
     </View>

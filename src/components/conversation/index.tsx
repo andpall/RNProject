@@ -11,7 +11,8 @@ import * as db from '../../constants/db';
 import {useNavigation} from '@react-navigation/native';
 import {conversation} from '../../types';
 import useChat from '../../hooks/useChat';
-import { finishLoad, startLoad } from '../../actions';
+import {finishLoad, startLoad} from '../../actions';
+import {selectDocument} from '../../services/firestore';
 
 interface Props {
   // conv: conversation;
@@ -29,25 +30,8 @@ const Converstation = (props: Props) => {
   const [textOfLastMessage, setTextOfLastMessage] = useState('');
 
   useEffect(() => {
-    startLoad()
-  })
-
-  useEffect(() => {
-    firestore()
-      .collection(db.COLLECTION)
-      .where('id', '==', convId)
-      .get()
-      .then(({docs}) => {
-        const dataId = docs[0].id;
-        const dataItem = docs[0].data();
-        setDocName(dataId);
-        setConversation(dataItem);
-        // setTextOfLastMessage(dataItem.lastMessage.text);
-        setTextOfLastMessage(
-          dataItem.messages[dataItem.messages.length - 1].text,
-        );
-        finishLoad();
-      });
+    selectDocument(convId, setDocName, setConversation, setTextOfLastMessage);
+    endLoading();
   }, []);
 
   const pressHanlder = () => {
@@ -66,10 +50,7 @@ const Converstation = (props: Props) => {
   return (
     <Pressable style={styles.mainContainer} onPress={pressHanlder}>
       <View style={styles.lefContainer}>
-        <Image
-          source={avatar}
-          style={styles.avatar}
-        />
+        <Image source={avatar} style={styles.avatar} />
         <View style={styles.midContainer}>
           <Text style={styles.username}>{conversation.user}</Text>
           <Text numberOfLines={2} style={styles.lastMessage}>

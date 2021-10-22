@@ -1,6 +1,12 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
+  fullFlex: {
+    flex: 1,
+  },
+  alignStart: {
+    alignContent: 'flex-start',
+  },
   fullCenter: {
     flex: 1,
     justifyContent: 'center',
@@ -33,8 +39,8 @@ const styles = StyleSheet.create({
     alignContent: 'flex-start',
     marginTop: 15,
     marginHorizontal: 3,
-    textAlign:'center',
-    backgroundColor: 'white'
+    textAlign: 'center',
+    backgroundColor: 'white',
   },
   buttonNewConv: {
     justifyContent: 'center',
@@ -50,7 +56,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 30
+    fontSize: 30,
     // textAlign: 'center',
     // justifyContent: 'center',
     // textAlignVertical: '',
@@ -67,8 +73,8 @@ const styles = StyleSheet.create({
   convList: {
     flexDirection: 'column',
     width: '90%',
-    alignContent:'center',
-    alignItems: 'center'
-  }
+    alignContent: 'center',
+    alignItems: 'center',
+  },
 });
 export default styles;
