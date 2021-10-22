@@ -53,8 +53,7 @@ const UserChats: React.FC = () => {
   const {isLoading, startLoading, endLoading} = useChat();
 
   useEffect(() => {
-    getAllChats(setChats);
-    endLoading();
+    return getAllChats(setChats);
   }, []);
 
   if (isLoading) {

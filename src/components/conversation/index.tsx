@@ -30,7 +30,15 @@ const Converstation = (props: Props) => {
   const [textOfLastMessage, setTextOfLastMessage] = useState('');
 
   useEffect(() => {
-    selectDocument(convId, setDocName, setConversation, setTextOfLastMessage);
+    selectDocument(convId).then(({chatData, chatId}) => {
+      setDocName(chatId);
+      setConversation(chatData);
+      setTextOfLastMessage(
+        chatData.messages[0]
+          ? chatData.messages[chatData.messages.length - 1].text
+          : ' ',
+      );
+    });
     endLoading();
   }, []);
 

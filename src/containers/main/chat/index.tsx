@@ -34,7 +34,7 @@ const ChatScreen = ({route}) => {
   const navigation = useNavigation();
 
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState('');
+  const [messages, setMessages] = useState([]);
 
   const handlePressSend = () => {
     sendMessage(
@@ -43,17 +43,19 @@ const ChatScreen = ({route}) => {
         text: message,
         user: myId,
       },
+      messages,
       docName,
     );
   };
 
   useEffect(() => {
-    subscribeOnNewMessages(setMessages, docName)
+    return subscribeOnNewMessages(setMessages, docName);
   }, [docName]);
 
   return (
     <ImageBackground style={{width: '100%', height: '100%'}} source={BG}>
-      <FlatList style = {{marginTop: 50}}
+      <FlatList
+        style={{marginTop: 50}}
         data={messages}
         renderItem={({item}) => (
           <MessageItem myId={myId} message={item} mateId={mateId} />

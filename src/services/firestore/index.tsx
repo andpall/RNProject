@@ -2,6 +2,7 @@ import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 import * as db from '../../constants/db';
+import {Message} from '../../types';
 
 const getMessages = documentSnapshot => {
   return documentSnapshot.get('messages');
@@ -22,11 +23,11 @@ export const subscribeOnNewMessages = (setMessage, docName: string) => {
   return () => subscriber();
 };
 
-export const getAllChats = setChats => {
+export const getAllChats = (setChats: (chats: []) => void) => {
   const subscriber = firestore()
     .collection(db.COLLECTION)
     .onSnapshot(querySnapshot => {
-      const chats = [];
+      const chats: [] = [];
       querySnapshot.forEach(documentSnapshot => {
         chats.push({
           ...documentSnapshot.data(),
@@ -38,7 +39,11 @@ export const getAllChats = setChats => {
   return () => subscriber();
 };
 
-export const sendMessage = (message: object, docName: string) => {
+export const sendMessage = (
+  message: object,
+  messages: Message[],
+  docName: string,
+) => {
   firestore()
     .collection(db.COLLECTION)
     .doc(docName)
@@ -54,31 +59,22 @@ export const createNewConversation = (searchinName: string) => {
       id: Date.now(),
       user: `${searchinName}`,
       lastMessage: {
-        createdAt: Date.now(),
+        createdAt: null,
         text: '',
         user: '',
       },
-      messages: [{createdAt: '', text: '', user: ''}],
+      messages: [],
     });
 };
 
-export const selectDocument = (
-  convId: string,
-  setDocName,
-  setConversation,
-  setTextOfLastMessage,
-) => {
-  firestore()
+export const selectDocument = (convId: string) => {
+  return firestore()
     .collection(db.COLLECTION)
     .where('id', '==', convId)
     .get()
     .then(({docs}) => {
-      const dataId = docs[0].id;
-      const dataItem = docs[0].data();
-      setDocName(dataId);
-      setConversation(dataItem);
-      setTextOfLastMessage(
-        dataItem.messages[dataItem.messages.length - 1].text,
-      );
+      const chatId = docs[0].id;
+      const chatData = docs[0].data();
+      return {chatId, chatData};
     });
 };
