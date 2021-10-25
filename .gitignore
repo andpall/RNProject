@@ -61,6 +61,5 @@ buck-out/
 
 /.vscode
 /.__tests__
-android
 ios
 node_modules

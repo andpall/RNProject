@@ -1,39 +1,39 @@
-import React, {useState} from 'react';
-import {View, Text, ScrollView, TextInput, FlatList} from 'react-native';
-import auth from '@react-native-firebase/auth';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import auth, {firebase} from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 import styles from './styles';
 import {strings} from '../../../i18n';
 import Button from '../../../components/button';
 import * as routes from '../../../constants/routes';
+import * as db from '../../../constants/db';
 
 import useAuth from '../../../hooks/useAuth';
 import Converstation from '../../../components/conversation';
 import {useNavigation} from '@react-navigation/core';
-import { Conversation } from '../../../types';
+import useChat from '../../../hooks/useChat';
+import {finishLoad} from '../../../actions';
+import {createNewConversation, getAllChats} from '../../../services/firestore';
 
-type Chat = {
-  id: string;
-  name: string;
-};
-
-interface ExCompProps {
-  onCall: (arg: string) => void;
-}
-
-const SearchAndAddConversation = (props: ExCompProps) => {
-  const {onCall} = props;
+const SearchAndAddConversation = () => {
   const navigation = useNavigation();
   const [searchinName, setSearchinName] = useState<string>('');
-
-  const pressHandler = () => {
-    onCall(searchinName);
-  };
 
   const handlePressBack = () => {
     navigation.navigate(routes.HOME_SCREEN);
   };
 
+  const pressHandler = () => {
+    createNewConversation(searchinName);
+  };
   return (
     <View style={{flexDirection: 'row'}}>
       <Button title="<" style={styles.buttonBack} onPress={handlePressBack} />
@@ -49,34 +49,25 @@ const SearchAndAddConversation = (props: ExCompProps) => {
 };
 
 const UserChats: React.FC = () => {
-  const [chats, setChats] = useState<Conversation[]>([]);
+  const [chats, setChats] = useState([]);
+  const {isLoading, startLoading, endLoading} = useChat();
 
-  const addConversation = (name: string) => {
-    setChats(allChats => [
-      ...allChats,
-      {
-        id: Date.now().toString(),
-        lastMessage: '',
-        user: {
-            id: '',
-            name,
-            imageUri: '',
-        }
-      },
-    ]);
-  };
+  useEffect(() => {
+    return getAllChats(setChats);
+  }, []);
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
 
   return (
-    <View style={{flex: 1}}>
-      <SearchAndAddConversation onCall={addConversation} />
-      <View style={{alignContent: 'flex-start'}}>
+    <View style={styles.fullFlex}>
+      <SearchAndAddConversation />
+      <View style={styles.alignStart}>
         <FlatList
           data={chats}
           renderItem={({item}) => (
-            <Converstation
-              key={item.id}
-              mateName ={item.user.name}
-            />
+            <Converstation key={item.id} convId={item.id} />
           )}
           inverted
         />

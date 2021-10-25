@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Text, View} from 'react-native';
 import styles from './styles';
 
@@ -13,7 +13,19 @@ interface MessageProps {
 
 const MessageItem = (props: MessageProps) => {
   const {message, myId} = props;
-  const isMyMessage = () => myId === message.user.id;
+  const isMyMessage = useMemo(() => myId === message.user, [myId]);
+
+  const calculateDate = () => {
+    const msInHour = 3600000;
+    const date = new Date(message.createdAt + msInHour * 3);
+    const month = (date.getMonth()+1).toString();
+    const days = date.getDate().toString();
+    const hours = date.getHours().toString();
+    const minutes = date.getMinutes().toString();
+    const seconds = date.getSeconds().toString();
+    return hours + ':' + minutes + ':' + seconds + "  " + days + '/' + month;
+  };
+  const formattedTime = useMemo(calculateDate, []);
 
   return (
     <View style={styles.container}>
@@ -21,13 +33,14 @@ const MessageItem = (props: MessageProps) => {
         style={[
           styles.messageBox,
           {
-            backgroundColor: isMyMessage() ? '#DCF8C5' : 'white',
-            marginLeft: isMyMessage() ? 50 : 0,
-            marginRight: isMyMessage() ? 0 : 50,
+            backgroundColor: isMyMessage ? '#DCF8C5' : 'white',
+            marginLeft: isMyMessage ? 50 : 0,
+            marginRight: isMyMessage ? 0 : 50,
           },
         ]}>
-        {!isMyMessage() && <Text style={styles.name}>{message.user.name}</Text>}
-        <Text style={styles.message}>{message.content}</Text>
+        {!isMyMessage && <Text style={styles.name}>{message.user}</Text>}
+        <Text style={styles.message}>{message.text}</Text>
+        <Text style={styles.time}>{formattedTime}</Text>
       </View>
     </View>
   );

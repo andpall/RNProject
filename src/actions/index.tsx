@@ -11,3 +11,15 @@ export const signOut = () => {
     type: types.LOGOUT,
   };
 };
+
+export const startLoad = () => {
+  return {
+    type: types.START_LOAD,
+  };
+};
+
+export const finishLoad = () => {
+  return {
+    type: types.FINISH_LOAD,
+  };
+};
