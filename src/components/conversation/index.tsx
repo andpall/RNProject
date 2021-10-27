@@ -25,13 +25,13 @@ const Converstation = (props: Props) => {
   const user = firebase.auth().currentUser;
   const userUid = user?.uid;
   const {isLoading, startLoading, endLoading} = useChat();
-  const [docName, setDocName] = useState('');
+  const [documentName, setDocumentName] = useState('');
   const [conversation, setConversation] = useState({});
   const [textOfLastMessage, setTextOfLastMessage] = useState('');
 
   useEffect(() => {
     selectDocument(convId).then(({chatData, chatId}) => {
-      setDocName(chatId);
+      setDocumentName(chatId);
       setConversation(chatData);
       setTextOfLastMessage(
         chatData.messages[0]
@@ -44,7 +44,7 @@ const Converstation = (props: Props) => {
 
   const pressHanlder = () => {
     navigation.navigate(routes.CHAT, {
-      docName,
+      documentName,
       myId: userUid,
       mateId: '',
       messages: conversation.messages,

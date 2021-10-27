@@ -24,6 +24,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import styles from './styles';
 import {putFile} from '../storage';
 import {requestPermissions} from '../permissions';
+import { strings } from '../../i18n';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
@@ -78,9 +79,9 @@ const Recorder = ({onFileSaved}: IProps) => {
   return (
     <>
       {!isPressed ? (
-        <Button onPress={onStartRecord} style={styles.buttonSend} title="SAY" />
+        <Button onPress={onStartRecord} style={styles.buttonSend} title={strings("buttons.say")} />
       ) : (
-        <Button onPress={onStopRecord} style={styles.buttonSend} title="STOP" />
+        <Button onPress={onStopRecord} style={styles.buttonSend} title={strings("buttons.stop")} />
       )}
     </>
   );

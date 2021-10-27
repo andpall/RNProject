@@ -35,11 +35,11 @@ interface Props {
   mateId: string;
   convId: string;
   _messages: Message[];
-  docName: string;
+  documentName: string;
 }
 
 const ChatScreen = ({route}) => {
-  const {myId, mateId, convId, docName} = route.params;
+  const {myId, mateId, convId, documentName} = route.params;
   const user = auth().currentUser;
 
   const navigation = useNavigation();
@@ -61,7 +61,7 @@ const ChatScreen = ({route}) => {
             type: 'audio'
           },
           messages,
-          docName,
+          documentName,
         )
       : sendMessage(
           {
@@ -70,27 +70,17 @@ const ChatScreen = ({route}) => {
             user: myId,
           },
           messages,
-          docName,
+          documentName,
         );
-  };
-
-  const handlePressSay = () => {
-    // onStartRecord();
-    setIsRecording(true);
-  };
-
-  const handlePressStop = () => {
-    // onStopRecord();
-    setIsRecording(false);
   };
 
   useEffect(() => {
     !checkMicrophone() && requestMicrophone();
-  });
+  }, []);
 
   useEffect(() => {
-    return subscribeOnNewMessages(setMessages, docName);
-  }, [docName]);
+    return subscribeOnNewMessages(setMessages, documentName);
+  }, [documentName]);
 
   return (
     <ImageBackground style={{width: '100%', height: '100%'}} source={BG}>

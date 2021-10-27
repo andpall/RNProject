@@ -36,21 +36,16 @@ const Player = props => {
   });
 
   const playPause = () => {
-    if (audio.isPlaying()) {
-      audio.pause();
-      setPlaying(false);
-    } else {
-      setPlaying(true);
-      audio.play(success => {
-        if (success) {
-          setPlaying(false);
-          console.debug('successfully finished playing');
-        } else {
-          setPlaying(false);
-          console.debug('playback failed due to audio decoding errors');
-        }
-      });
-    }
+    audio.isPlaying()
+      ? (audio.pause(), setPlaying(false))
+      : (setPlaying(true),
+        audio.play(success => {
+          success
+            ? (setPlaying(false),
+              console.debug('successfully finished playing'))
+            : (setPlaying(false),
+              console.debug('playback failed due to audio decoding errors'));
+        }));
   };
 
   useEffect(() => {
@@ -69,7 +64,7 @@ const Player = props => {
       <Button
         style={styles.audioMessage}
         textStyle={styles.name}
-        title="PLAY"
+        title={strings('buttons.play_message')}
         onPress={playPause}
       />
     </>

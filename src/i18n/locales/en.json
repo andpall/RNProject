@@ -15,7 +15,10 @@
     "confirm": "Confirm",
     "send": "Send",
     "login_with_phone": "Sign in with phone",
-    "google_login": "Sign with Google"
+    "google_login": "Sign with Google",
+    "say": "Say",
+    "stop": "Stop",
+    "play_message" : "PLAY"
   },
   "errors": {},
   "titles": {
