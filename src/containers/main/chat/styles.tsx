@@ -41,15 +41,19 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     marginHorizontal: 0,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   textInputContainer: {
-    alignItems:'flex-end',
+    alignItems: 'flex-end',
     marginHorizontal: 10,
     flexDirection: 'row',
   },
   icon: {
     marginHorizontal: 5,
+  },
+  backgroundStyle: {
+    width: '100%',
+    height: '100%',
   },
 });
 export default styles;

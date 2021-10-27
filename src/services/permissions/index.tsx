@@ -16,9 +16,9 @@ const requestMicrophone = async () => {
       grants['android.permission.RECORD_AUDIO'] ===
         PermissionsAndroid.RESULTS.GRANTED
     ) {
-      console.log('Permissions granted');
+      console.debug('Permissions granted');
     } else {
-      console.log('All required permissions not granted');
+      console.debug('All required permissions not granted');
       return;
     }
   } catch (e) {

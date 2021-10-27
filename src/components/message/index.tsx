@@ -8,7 +8,7 @@ import * as db from '../../constants/db';
 import {Message} from '../../types';
 import Button from '../button';
 import Sound from 'react-native-sound';
-import Player from '../../services/audioMsg';
+import Player from '../../services/audioPlayer';
 
 interface MessageProps {
   message: Message;

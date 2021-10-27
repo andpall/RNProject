@@ -24,24 +24,27 @@ import RNFetchBlob from 'rn-fetch-blob';
 import styles from './styles';
 import {putFile} from '../storage';
 import {requestPermissions} from '../permissions';
-import { strings } from '../../i18n';
+import {strings} from '../../i18n';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
 interface IProps {
-  onFileSaved: (token: any) => Promise<void>
+  onFileSaved: (token: any) => Promise<void>;
 }
 
 const Recorder = ({onFileSaved}: IProps) => {
   const dirs = RNFetchBlob.fs.dirs;
-  const recordName = `${Date.now()}.mp3`;
-  const path = `${dirs.CacheDir}/${recordName}`;
 
   const [recordSecs, setRecordSecs] = useState(0);
   const [recordTime, setRecordTime] = useState('00:00:00');
-
   const [isPressed, setIsPressed] = useState(false);
+  const [recordName, setRecordName] = useState<string | null>(null);
+  const [path, setPath] = useState<string | null>(null);
 
+  useEffect(() => {
+    setRecordName(`${new Date().getTime()}.mp3`);
+    setPath(`${dirs.CacheDir}/${recordName}`);
+  }, []);
   audioRecorderPlayer.setSubscriptionDuration(0.1); // optional. Default is 0.5
 
   const onStartRecord = async () => {
@@ -54,7 +57,8 @@ const Recorder = ({onFileSaved}: IProps) => {
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
-
+    // console.debug('naaaaaaaaaaaaaame1', recordName);
+    // console.debug('paaaaaaaaaaaaaath1', path);
     const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
 
     audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
@@ -70,18 +74,27 @@ const Recorder = ({onFileSaved}: IProps) => {
     const result = await audioRecorderPlayer.stopRecorder();
     audioRecorderPlayer.removeRecordBackListener();
     setRecordSecs(0);
-    console.debug(result);
     setIsPressed(false);
-    console.debug(recordName)
-    putFile(path, recordName).then((recordToken) => onFileSaved(recordToken));
+    // console.debug('reeeeeeeeeeeeeeeeeees', result);
+    // console.debug('paaaaaaaaaaaaath2', path);
+    // console.debug('naaaaaaaaaaaaaame2', recordName);
+    putFile(path, recordName).then(recordToken => onFileSaved(recordToken));
   };
 
   return (
     <>
       {!isPressed ? (
-        <Button onPress={onStartRecord} style={styles.buttonSend} title={strings("buttons.say")} />
+        <Button
+          onPress={onStartRecord}
+          style={styles.buttonSend}
+          title={strings('buttons.say')}
+        />
       ) : (
-        <Button onPress={onStopRecord} style={styles.buttonSend} title={strings("buttons.stop")} />
+        <Button
+          onPress={onStopRecord}
+          style={styles.buttonSend}
+          title={strings('buttons.stop')}
+        />
       )}
     </>
   );

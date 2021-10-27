@@ -22,17 +22,7 @@ const Player = props => {
   const [playing, setPlaying] = useState(false);
 
   const audio = new Sound(props.source, null, error => {
-    if (error) {
-      console.debug('failed to load the sound', error);
-      return;
-    }
-    // if loaded successfully
-    console.debug(
-      'duration in seconds: ' +
-        audio.getDuration() +
-        'number of channels: ' +
-        audio.getNumberOfChannels(),
-    );
+    error && console.debug('failed to load the sound', error);
   });
 
   const playPause = () => {

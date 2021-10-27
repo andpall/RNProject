@@ -58,7 +58,7 @@ const ChatScreen = ({route}) => {
             text: message,
             user: myId,
             source: recordToken,
-            type: 'audio'
+            type: db.AUDIO_MESSAGE,
           },
           messages,
           documentName,
@@ -83,7 +83,7 @@ const ChatScreen = ({route}) => {
   }, [documentName]);
 
   return (
-    <ImageBackground style={{width: '100%', height: '100%'}} source={BG}>
+    <ImageBackground style={styles.backgroundStyle} source={BG}>
       <FlatList
         style={{marginTop: 50}}
         data={messages}
@@ -99,7 +99,7 @@ const ChatScreen = ({route}) => {
           value={message}
           onChangeText={setMessage}
         />
-        <Recorder onFileSaved={async (token) => setRecordToken(token)} />
+        <Recorder onFileSaved={async token => setRecordToken(token)} />
         <Button
           style={styles.buttonSend}
           title={strings('buttons.send')}
