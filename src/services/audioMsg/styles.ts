@@ -22,7 +22,18 @@ const styles = StyleSheet.create({
   },
   audioMessage:{
     color: '#616c78'
-  }
+  },
+   buttonSend: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#c4c8cc',
+    width: 40,
+    height: 50,
+    borderWidth: 0,
+    borderColor: 'grey',
+    borderRadius: 1,
+    marginVertical: 0,
+  },
 });
 
 export default styles;

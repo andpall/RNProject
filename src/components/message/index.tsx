@@ -1,9 +1,12 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Text, View} from 'react-native';
 import styles from './styles';
 
 import * as routes from '../../constants/routes';
 import {Message} from '../../types';
+import Button from '../button';
+import Sound from 'react-native-sound';
+import Player from '../../services/audioMsg';
 
 interface MessageProps {
   message: Message;
@@ -18,14 +21,18 @@ const MessageItem = (props: MessageProps) => {
   const calculateDate = () => {
     const msInHour = 3600000;
     const date = new Date(message.createdAt + msInHour * 3);
-    const month = (date.getMonth()+1).toString();
+    const month = (date.getMonth() + 1).toString();
     const days = date.getDate().toString();
     const hours = date.getHours().toString();
     const minutes = date.getMinutes().toString();
     const seconds = date.getSeconds().toString();
-    return hours + ':' + minutes + ':' + seconds + "  " + days + '/' + month;
+    return hours + ':' + minutes + ':' + seconds + '  ' + days + '/' + month;
   };
   const formattedTime = useMemo(calculateDate, []);
+
+  
+
+  const handlePlayMessage = () => {};
 
   return (
     <View style={styles.container}>
@@ -41,6 +48,9 @@ const MessageItem = (props: MessageProps) => {
         {!isMyMessage && <Text style={styles.name}>{message.user}</Text>}
         <Text style={styles.message}>{message.text}</Text>
         <Text style={styles.time}>{formattedTime}</Text>
+        {message.type && message.type === 'audio' && (
+          <Player source = {message.source}/>
+        )}
       </View>
     </View>
   );
