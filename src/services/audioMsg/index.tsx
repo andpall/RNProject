@@ -44,10 +44,10 @@ const Player = props => {
       audio.play(success => {
         if (success) {
           setPlaying(false);
-          console.log('successfully finished playing');
+          console.debug('successfully finished playing');
         } else {
           setPlaying(false);
-          console.log('playback failed due to audio decoding errors');
+          console.debug('playback failed due to audio decoding errors');
         }
       });
     }

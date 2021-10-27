@@ -57,7 +57,7 @@ const Recorder = ({onFileSaved}: IProps) => {
     const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
 
     audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
-      console.log('record-back', e);
+      console.debug('record-back', e);
       setRecordSecs(e.currentPosition);
       setRecordTime(audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)));
     });
