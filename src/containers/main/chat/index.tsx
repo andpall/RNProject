@@ -29,6 +29,7 @@ import {
   checkMicrophone,
   requestMicrophone,
 } from '../../../services/permissions';
+import VoiceInput from '../../../services/voiceInput';
 
 interface Props {
   myId: string;
@@ -99,6 +100,7 @@ const ChatScreen = ({route}) => {
           value={message}
           onChangeText={setMessage}
         />
+        <VoiceInput onRecord={(text: string) => setMessage(text)} />
         <Recorder onFileSaved={async token => setRecordToken(token)} />
         <Button
           style={styles.buttonSend}

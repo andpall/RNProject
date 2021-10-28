@@ -30,11 +30,7 @@ const Player = props => {
       ? (audio.pause(), setPlaying(false))
       : (setPlaying(true),
         audio.play(success => {
-          success
-            ? (setPlaying(false),
-              console.debug('successfully finished playing'))
-            : (setPlaying(false),
-              console.debug('playback failed due to audio decoding errors'));
+          setPlaying(false);
         }));
   };
 

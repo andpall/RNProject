@@ -57,8 +57,7 @@ const Recorder = ({onFileSaved}: IProps) => {
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
-    // console.debug('naaaaaaaaaaaaaame1', recordName);
-    // console.debug('paaaaaaaaaaaaaath1', path);
+
     const uri = await audioRecorderPlayer.startRecorder(path, audioSet);
 
     audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
@@ -75,9 +74,7 @@ const Recorder = ({onFileSaved}: IProps) => {
     audioRecorderPlayer.removeRecordBackListener();
     setRecordSecs(0);
     setIsPressed(false);
-    // console.debug('reeeeeeeeeeeeeeeeeees', result);
-    // console.debug('paaaaaaaaaaaaath2', path);
-    // console.debug('naaaaaaaaaaaaaame2', recordName);
+
     putFile(path, recordName).then(recordToken => onFileSaved(recordToken));
   };
 
