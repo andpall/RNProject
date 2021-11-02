@@ -9,6 +9,8 @@ export type Message = {
   createdAt: number;
   text: string;
   user: string;
+  type?: 'audio' | 'image' | 'video';
+  source? : string;
 };
 
 export type Conversation = {

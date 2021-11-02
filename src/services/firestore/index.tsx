@@ -42,11 +42,11 @@ export const getAllChats = (setChats: (chats: []) => void) => {
 export const sendMessage = (
   message: object,
   messages: Message[],
-  docName: string,
+  documentName: string,
 ) => {
   firestore()
     .collection(db.COLLECTION)
-    .doc(docName)
+    .doc(documentName)
     .update({
       messages: [...messages, message],
     });

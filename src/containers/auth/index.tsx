@@ -31,7 +31,7 @@ const LoginScreen: React.FC<Props> = props => {
       await auth().signInWithEmailAndPassword(username, password);
       logIn();
       setUser(auth().currentUser);
-    } catch (error) {
+    } catch (error: any) {
       setErrorMessage(error.message);
     }
   };
@@ -41,7 +41,7 @@ const LoginScreen: React.FC<Props> = props => {
       await schema.validate({username, password});
       await auth().createUserWithEmailAndPassword(username, password);
       logIn();
-    } catch (error) {
+    } catch (error: any) {
       setErrorMessage(error.message);
     }
   };

@@ -6,6 +6,7 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
+  PermissionsAndroid,
 } from 'react-native';
 import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -51,6 +52,8 @@ const SearchAndAddConversation = () => {
 const UserChats: React.FC = () => {
   const [chats, setChats] = useState([]);
   const {isLoading, startLoading, endLoading} = useChat();
+
+
 
   useEffect(() => {
     return getAllChats(setChats);
