@@ -6,13 +6,15 @@ import * as yup from 'yup';
 import styles from './styles';
 import {strings} from '../../i18n';
 
-import store from '../../store/store';
-
 import GoogleSignInButton from './google_auth';
 import useAuth from '../../hooks/useAuth';
 import * as routes from '../../constants/routes';
 
-const LoginScreen: React.FC<Props> = props => {
+interface Props {
+  navigation: any;
+}
+
+const LoginScreen: React.FC<Props> = (props: Props) => {
   const {logIn} = useAuth();
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');

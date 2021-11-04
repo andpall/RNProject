@@ -21,7 +21,7 @@ const getLangToDisplay = () => fallback;
 
 let currentLang = getLangToDisplay();
 
-export function strings(name, params) {
+export function strings(name: string, params) {
   const previousLang = currentLang;
   currentLang = getLangToDisplay();
   if (previousLang !== currentLang) {

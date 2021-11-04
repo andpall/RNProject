@@ -5,24 +5,30 @@ export type User = {
 };
 
 export type Message = {
-  id?: string;
   createdAt: number;
   text: string;
   user: string;
   type?: 'audio' | 'image' | 'video';
-  source? : string;
+  source?: string;
 };
 
 export type Conversation = {
-  id: string;
-  user: User;
-  lastMessage: string;
-};
-
-export type conversation = {
-  id: string;
-  lastMessage: Message;
+  id: number;
+  lastMessage: Message | null;
   messages: Message[];
   mateName?: string;
-  user?: string;
+  user: string;
+};
+
+export type RootStackParamList = {
+  LoginScreen: undefined;
+  PhoneAuth: undefined;
+  Home: undefined;
+  MyChats: undefined;
+  Chat: {
+    documentName: string;
+    myId: string;
+    mateId: string;
+    messages: Message[];
+  };
 };

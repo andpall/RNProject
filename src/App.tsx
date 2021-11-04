@@ -7,7 +7,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 const Stack = createNativeStackNavigator();
 
 import Navigation from './navigator';
-import {configureStore} from './store/store';
+import {configureStore} from './store';
 
 const {store, persistor} = configureStore();
 

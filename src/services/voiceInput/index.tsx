@@ -1,12 +1,6 @@
 import Voice from '@react-native-voice/voice';
-import {
-  ActivityIndicator,
-  Image,
-  PermissionsAndroid,
-  TouchableHighlight,
-  View,
-} from 'react-native';
-import React, {Component, useEffect, useState} from 'react';
+import {View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Button from '../../components/button';
 import styles from './styles';
 
@@ -23,9 +17,7 @@ const VoiceInput = ({onRecord}: IProps) => {
   useEffect(() => {
     Voice.onSpeechEnd = onSpeechEnd;
     Voice.onSpeechPartialResults = onSpeechPartialResults;
-    Voice.onSpeechError = e => {
-      console.debug(e);
-    };
+    Voice.onSpeechError = onSpeechError;
 
     return () => {
       Voice.destroy().then(e => {
@@ -34,16 +26,20 @@ const VoiceInput = ({onRecord}: IProps) => {
     };
   }, []);
 
-  function onSpeechEnd(e) {
+  const onSpeechEnd = e => {
     setIsRecording(false);
     setResult(e);
     onRecord(result);
-  }
+  };
 
-  function onSpeechPartialResults(e) {
+  const onSpeechPartialResults = e => {
     setResult(e.value[0]);
     onRecord(e.value[0]);
-  }
+  };
+
+  const onSpeechError = e => {
+    console.debug(e);
+  };
 
   const startRecognizing = async () => {
     try {
@@ -55,7 +51,6 @@ const VoiceInput = ({onRecord}: IProps) => {
   };
 
   const stopRecognizing = async () => {
-    //Stops listening for speech
     try {
       await Voice.stop();
       setIsRecording(false);

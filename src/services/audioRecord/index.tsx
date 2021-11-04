@@ -7,16 +7,6 @@ import AudioRecorderPlayer, {
   PlayBackType,
   RecordBackType,
 } from 'react-native-audio-recorder-player';
-import {
-  Dimensions,
-  PermissionsAndroid,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
 import React, {Component, useEffect, useState} from 'react';
 
 import Button from '../../components/button';
@@ -95,7 +85,6 @@ const Recorder = ({onFileSaved}: IProps) => {
       )}
     </>
   );
-  // return {onStartRecord, onStopRecord};
 };
 
 export {Recorder};

@@ -1,36 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View} from 'react-native';
 import {AudioRecorder, AudioUtils} from 'react-native-audio';
-
-// let audioPath = AudioUtils.DocumentDirectoryPath + '/test.aac';
-
-// AudioRecorder.prepareRecordingAtPath(audioPath, {
-//   SampleRate: 22050,
-//   Channels: 1,
-//   AudioQuality: 'Low',
-//   AudioEncoding: 'aac',
-// });
-
 import Sound from 'react-native-sound';
 import Button from '../../components/button';
 import {strings} from '../../i18n';
 import styles from './styles';
 
-const Player = props => {
+interface Props {
+  source: string;
+}
+
+const Player = (props: Props) => {
   const {source} = props;
+  const playing = useRef(false);
 
-  const [playing, setPlaying] = useState(false);
-
-  const audio = new Sound(props.source, null, error => {
+  const audio = new Sound(source, null, error => {
     error && console.debug('failed to load the sound', error);
   });
 
   const playPause = () => {
     audio.isPlaying()
-      ? (audio.pause(), setPlaying(false))
-      : (setPlaying(true),
+      ? (playing.current = false)
+      : ((playing.current = true),
         audio.play(success => {
-          setPlaying(false);
+          playing.current = false;
         }));
   };
 
