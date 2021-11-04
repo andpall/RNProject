@@ -31,24 +31,6 @@ function* fetchConversationsWorker() {
   }
 }
 
-// export function* sagaWatcher() {
-//   yield takeEvery(types.GET_CHATS, sagaWorker);
-// }
-
-// export function* sagaWorker() {
-//   // const data = yield call(asFunc);
-
-//   let chatiki: Conversation[];
-//   const updateChats = (chats: Conversation[]) => {
-//     chatiki = chats;
-//   };
-//   yield call(subscribeOnChats, updateChats);
-
-//   yield console.debug(chatiki);
-
-//   yield put({type: types.GET_CHATS_SUCCES, payload: chatiki});
-// }
-
 function* rootSaga() {
   yield spawn(conversationWatcher);
 }
