@@ -10,7 +10,11 @@ import Button from '../../../components/button';
 import useAuth from '../../../hooks/useAuth';
 import * as routes from '../../../constants/routes';
 
-function PhoneAuthScreen(props) {
+interface Props {
+  navigation: any;
+}
+
+const PhoneAuthScreen: React.FC<Props> = props => {
   // If null, no SMS has been sent
   const [phoneNumber, setPhoneNumber] = useState('');
   const [confirm, setConfirm] = useState(null);
@@ -71,6 +75,6 @@ function PhoneAuthScreen(props) {
       </Text>
     </View>
   );
-}
+};
 
 export default PhoneAuthScreen;

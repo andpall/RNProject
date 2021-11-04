@@ -1,10 +1,11 @@
+import { AnyAction } from 'redux';
 import * as types from '../constants/actionTypes';
 
 let initialState = {
   isSignIn: false,
 };
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case types.LOGIN: {
       return {

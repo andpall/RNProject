@@ -16,18 +16,10 @@ import UserChats from '../containers/main/user_chats';
 import ChatScreen from '../containers/main/chat';
 import Button from '../components/button';
 import Header from '../components/header';
+import { RootStackParamList } from '../types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
-
-type RootStackParamList = {
-  LoginScreen: {name: string};
-  PhoneAuth: {name: string};
-  Home: undefined;
-  Profile: {userId: string};
-  MyChats: undefined;
-  Chat: undefined;
-};
 
 const Navigation = () => {
   const {isSignIn} = useAuth();
